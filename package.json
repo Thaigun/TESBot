@@ -1,0 +1,31 @@
+{
+  "name": "tesbot",
+  "version": "1.0.0",
+  "description": "A twitter bot that tweets random pieces from Finnish labor agreements.",
+  "main": "index.js",
+  "dependencies": {
+    "twit": "^2.2.9"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Thaigun/TESBot.git"
+  },
+  "keywords": [
+    "twitter",
+    "bot",
+    "node"
+  ],
+  "author": "Antti M.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thaigun/TESBot/issues"
+  },
+  "homepage": "https://github.com/Thaigun/TESBot#readme"
+}
