@@ -4,6 +4,7 @@
   "description": "A twitter bot that tweets random pieces from Finnish labor agreements.",
   "main": "index.js",
   "dependencies": {
+    "pdf2json": "^1.1.7",
     "twit": "^2.2.9"
   },
   "devDependencies": {
