@@ -12,7 +12,6 @@ let client = new Twitter({
     timeout_ms:             60*1000,  // optional HTTP request timeout to apply to all requests.
 });
 
-let envs = process.env;
 let parser = new ContentParser('pdfs');
 parser.parse();
 
