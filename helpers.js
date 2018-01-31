@@ -11,7 +11,7 @@ function randomFromArray(arr) {
     return arr[randomInt(0, arr.length - 1)]
 }
 
-module.export = {
+module.exports = {
     randomInt: randomInt,
     rndChoose: randomFromArray
 };

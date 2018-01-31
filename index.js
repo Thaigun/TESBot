@@ -1,29 +1,31 @@
 'use strict';
 
-import { setInterval } from 'timers';
+const Twitter = require('twitter');
 
-var Twitter = require('twitter');
+const ContentParser = require('./contentParser');
 
-var ContentParser = require('./contentParser');
-
-var client = new Twitter({
-    consumer_key:           'uhhHwfrXJFEHoswPIxniHyjfM',
-    consumer_secret:        'pLzWfzcM4LLMaZXhfBU8oFslFN9LhzrPHQbCk8UXlZOirmV3GI',
-    access_token:           '...',
-    access_token_secret:    '...',
+let client = new Twitter({
+    consumer_key:           process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret:        process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key:       process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret:    process.env.TWITTER_ACCESS_TOKEN_SECRET,
     timeout_ms:             60*1000,  // optional HTTP request timeout to apply to all requests.
 });
 
-let parser = new ContentParser();
+let envs = process.env;
+let parser = new ContentParser('pdfs');
 parser.parse();
 
-setInterval(function() {
+function sendRandomTweet() {
     let content = parser.randomContent();
 
-    T.post('statuses/update', {
+    client.post('statuses/update', {
         status: content
     }, function(err, data, response) {
         console.log(data);
     });
-}, 1000*60*60*10 + 61234); // Couple of times a day, small offset to get variance on the time.
+}
+
+//setImmediate(sendRandomTweet);
+setInterval(sendRandomTweet, 1000*60*60*10 + 61234); // Couple of times a day, small offset to get variance on the time.
 

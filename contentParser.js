@@ -23,4 +23,4 @@ class ContentParser {
     }
 }
 
-module.export = ContentParser;
+module.exports = ContentParser;
