@@ -19,7 +19,14 @@ function sendTweet(content, callback) {
  * This function returns a tweet, where the quote is replaced by the snippet.
  */
 function generateTweet(title, snippet) {
-    
+    let startIdx = title.indexOf('\"');
+    let endIdx = title.indexOf('\"', startIdx + 1);
+    if (startIdx == -1 || endIdx == -1) {
+        return null;
+    }
+    let prefix = title.slice(0, endIdx);
+    let postfix = title.slice(endIdx + 1);
+    return prefix + snippet + postfix;
 }
 
 module.exports = {

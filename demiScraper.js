@@ -1,5 +1,7 @@
 'use strict';
 
+const helpers = require('./helpers');
+
 const baseUrl = 'https://www.demi.fi/keskustelut/syvalliset'
 
 class DemiScraper {
@@ -12,7 +14,7 @@ class DemiScraper {
     }
 
     getRandomSnippet() {
-
+        return helpers.rndChoose(this.snippets);
     }
 }
 

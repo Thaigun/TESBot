@@ -25,9 +25,12 @@ function updateEverything() {
  */
 function tweet() {
     let tweetContent = tweeter.generateTweet(stalker.getRandomTitle(), scraper.getRandomSnippet());
-    tweeter.tweet(tweetContent, function(err, tweet, response) {
-        // Implement logging twitter responses or errors here.
-    });
+    
+    if (tweetContent != null && tweetContent != '') {
+        tweeter.tweet(tweetContent, function(err, tweet, response) {
+            // Implement logging twitter responses or errors here.
+        });
+    }
 }
 
 setImmediate(updateEverything);
