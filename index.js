@@ -1,30 +1,39 @@
 'use strict';
 
-const Twitter = require('twitter');
+const RSSStalker = require('./rssStalker');
+const tweeter = require('./tweeter');
+const Scraper = require('./demiScraper');
 
-const ContentParser = require('./contentParser');
+let stalker = new RSSStalker([
+    'https://www.mtv.fi/api/feed/rss/uutiset_uusimmat', 
+    'http://www.iltalehti.fi/rss.xml',
+    'https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET']);
 
-let client = new Twitter({
-    consumer_key:           process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret:        process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key:       process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret:    process.env.TWITTER_ACCESS_TOKEN_SECRET,
-    timeout_ms:             60*1000,  // optional HTTP request timeout to apply to all requests.
-});
+    let scraper = new Scraper();
 
-let parser = new ContentParser('pdfs');
-parser.parse();
+/**
+ * This triggers the whole cycle from fetchiong the news titles and forum posts
+ * to tweeting them.
+ */
+function updateEverything() {
+    stalker.updateTitles();
+    scraper.scrapeSnippets();
+}
 
-function sendRandomTweet() {
-    let content = parser.randomContent();
-
-    client.post('statuses/update', {
-        status: content
-    }, function(err, data, response) {
-        console.log(data);
+/**
+ * Send a tweet from random title + forum snippet.
+ */
+function tweet() {
+    let tweetContent = tweeter.generateTweet(stalker.getRandomTitle(), scraper.getRandomSnippet());
+    tweeter.tweet(tweetContent, function(err, tweet, response) {
+        // Implement logging twitter responses or errors here.
     });
 }
 
-//setImmediate(sendRandomTweet);
-setInterval(sendRandomTweet, 1000*60*60*10 + 61234); // Couple of times a day, small offset to get variance on the time.
+setImmediate(updateEverything);
 
+setInterval(updateEverything, 1000*60*60); // Every hour, update data.
+
+setTimeout(function() {
+    setInterval(tweet, 1000*60*60*5); // Tweet every 5 hours.
+}, 1000*60*10); // Starting after small offset.
