@@ -5,6 +5,8 @@ const https = require('https');
 const request = require('request');
 const FeedParser = require('feedparser');
 
+const helpers = require('./helpers');
+
 class RSSStalker {
     /**
      * Make a list of channels, each having its own url and list of latest fetched titles.
@@ -61,7 +63,8 @@ class RSSStalker {
     }
 
     getRandomTitle() {
-
+        let channel = helpers.rndChoose(this.channels);
+        return helpers.rndChoose(channel.titles);
     }
 }
 

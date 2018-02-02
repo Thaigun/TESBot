@@ -6,9 +6,9 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "feedparser": "^2.2.9",
-    "pdf2json": "^1.1.7",
     "request": "^2.83.0",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "x-ray": "^2.3.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
