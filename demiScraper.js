@@ -1,5 +1,7 @@
 'use strict';
 
+const https = require('https');
+
 const request = require('request');
 const cheerio = require('cheerio');
 
@@ -13,15 +15,28 @@ class DemiScraper {
     }
 
     scrapeSnippets() {
-        request(baseUrl, function(error, response, html) {
-            if (!error && response.statusCode == 200) {
-                // This gives us jQuery-like syntax for parsing the html string.
-                var $ = cheerio.load(html);
-                $('a').each((i, elem) => {
-                    let link = $(this).attr('href');
-                    let debug = 2;
-                });
-            }
+        https.get(baseUrl, (res) => {
+            let allHtml = '';
+            
+            res.on('data', (d) => {
+                allHtml += d;
+            });
+
+            res.on('end', () => {
+                this.handleHtml(allHtml);
+            });
+
+            res.on('error', (e) => {
+                console.error(e.message);
+            });
+        });
+    }
+
+    handleHtml(html) {
+        var $ = cheerio.load(html);
+        $('a').each((i, elem) => {
+            let link = $(this).attr('href');
+            let debug = 2;
         });
     }
 
