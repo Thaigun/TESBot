@@ -53,17 +53,20 @@ class DemiScraper {
         let currentSentence = '';
         let sentenceFinished = false;
         for (let char of post) {
-            if (currentSentence == '' && char.toUpperCase() === char) {
+            let alphaNumeric = validator.isAlphanumeric(char, 'sv-SE');
+            if (currentSentence == '' && char.toUpperCase() === char && alphaNumeric) {
                 currentSentence += char;
             } else if (currentSentence != '' && (char == '.' || char == '?' || char == '!')) {
                 currentSentence += char;
-                if (validator.isAlphanumeric(currentSentence, 'sv-SE')) {
-                    lastSentence = currentSentence;
-                    sentenceFinished = true;
-                }
+                lastSentence = currentSentence;
+                sentenceFinished = true;
                 currentSentence = '';
             } else if (currentSentence != '') {
-                currentSentence += char;
+                if (alphaNumeric) {
+                    currentSentence += char;
+                } else {
+                    currentSentence = '';  // Let's not allow random characters.
+                }
             }
         }
 
