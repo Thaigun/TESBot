@@ -27,8 +27,8 @@ function generateTweet(title, snippet) {
     if (startIdx == -1 || endIdx == -1) {
         return null;
     }
-    let prefix = title.slice(0, endIdx);
-    let postfix = title.slice(endIdx + 1);
+    let prefix = title.slice(0, startIdx + 1);
+    let postfix = title.slice(endIdx);
     return prefix + snippet + postfix;
 }
 

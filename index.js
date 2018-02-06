@@ -53,6 +53,8 @@ function tweet() {
             } else {
                 tweetedTitles.push(rndTitle);
                 tweetedSnippets.push(rndSnippet);
+                if (tweetedTitles.length > 10000) { tweetedTitles = []; } // Clear it at some point
+                if (tweetedSnippets.length > 10000) { tweetedSnippets = []; }
                 console.log('Tweeted: ' + tweetContent);
             }
         });
@@ -66,3 +68,6 @@ setInterval(updateEverything, 1000*60*60); // Every hour, update data.
 setTimeout(function() {
     setInterval(tweet, 1000*60*60*5); // Tweet every 5 hours.
 }, 1000*60*10); // Starting after small offset. 
+
+let testTweet = tweeter.generateTweet('Näin sanoo uutisankka: "Olisipa kaljaa"', 'Kyllä meillä ennen osattiin');
+console.log(testTweet);
