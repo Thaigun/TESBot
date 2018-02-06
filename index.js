@@ -68,6 +68,3 @@ setInterval(updateEverything, 1000*60*60); // Every hour, update data.
 setTimeout(function() {
     setInterval(tweet, 1000*60*60*5); // Tweet every 5 hours.
 }, 1000*60*10); // Starting after small offset. 
-
-let testTweet = tweeter.generateTweet('Näin sanoo uutisankka: "Olisipa kaljaa"', 'Kyllä meillä ennen osattiin');
-console.log(testTweet);
