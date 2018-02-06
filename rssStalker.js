@@ -60,6 +60,7 @@ class RSSStalker {
         for (let channel of this.channels) {
             this.updateTitlesForChannel(channel);
         }
+        console.log('Titles have been updated');
     }
 
     getRandomTitle() {
