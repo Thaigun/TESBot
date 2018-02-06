@@ -4,11 +4,10 @@
   "description": "A twitter bot that tweets random pieces from Finnish labor agreements.",
   "main": "index.js",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
     "feedparser": "^2.2.9",
+    "puppeteer": "^1.0.0",
     "request": "^2.83.0",
-    "twitter": "^1.7.1",
-    "x-ray": "^2.3.2"
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

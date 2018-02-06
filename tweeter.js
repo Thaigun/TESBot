@@ -19,6 +19,9 @@ function sendTweet(content, callback) {
  * This function returns a tweet, where the quote is replaced by the snippet.
  */
 function generateTweet(title, snippet) {
+    if (title == '' || snippet == '') {
+        return null;
+    }
     let startIdx = title.indexOf('\"');
     let endIdx = title.indexOf('\"', startIdx + 1);
     if (startIdx == -1 || endIdx == -1) {

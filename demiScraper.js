@@ -2,46 +2,46 @@
 
 const https = require('https');
 
-const request = require('request');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 const helpers = require('./helpers');
 
-const baseUrl = 'https://www.demi.fi/keskustelut/syvalliset'
+const baseUrl = 'https://www.demi.fi/keskustelut/syvalliset';
+//const baseUrl = 'https://www.demi.fi';
+//const baseUrl = 'http://example.com';
+
+const waitOptions = { waitUntil: ['load'/*, 'domcontentloaded', 'networkidle0'*/] };
 
 class DemiScraper {
     constructor() {
-        this.snippets = [];
+        this.latestSnippet = '';
     }
 
     scrapeSnippets() {
-        https.get(baseUrl, (res) => {
-            let allHtml = '';
+        this.latestSnippet = '';
+        let scraper = this;
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            page.setDefaultNavigationTimeout(0);
+            await page.goto(baseUrl, waitOptions);
+            await Promise.all([
+                page.waitForNavigation(),
+                page.click('.views-field-title > a')
+            ]);
             
-            res.on('data', (d) => {
-                allHtml += d;
+            let postText = await page.evaluate(() => {
+                let allPosts = document.querySelectorAll('.field-item');
+                return allPosts[allPosts.length - 1].innerText;
             });
-
-            res.on('end', () => {
-                this.handleHtml(allHtml);
-            });
-
-            res.on('error', (e) => {
-                console.error(e.message);
-            });
-        });
-    }
-
-    handleHtml(html) {
-        var $ = cheerio.load(html);
-        $('a').each((i, elem) => {
-            let link = $(this).attr('href');
-            let debug = 2;
-        });
+            browser.close();
+            scraper.latestSnippet = postText;
+        })();
     }
 
     getRandomSnippet() {
-        return helpers.rndChoose(this.snippets);
+        //return helpers.rndChoose(this.snippets);
+        return this.latestSnippet;
     }
 }
 
