@@ -3,6 +3,7 @@
 const https = require('https');
 
 const puppeteer = require('puppeteer');
+const validator = require('validator');
 
 const helpers = require('./helpers');
 
@@ -56,9 +57,11 @@ class DemiScraper {
                 currentSentence += char;
             } else if (currentSentence != '' && (char == '.' || char == '?' || char == '!')) {
                 currentSentence += char;
-                lastSentence = currentSentence;
+                if (validator.isAlphanumeric(currentSentence, 'sv-SE')) {
+                    lastSentence = currentSentence;
+                    sentenceFinished = true;
+                }
                 currentSentence = '';
-                sentenceFinished = true;
             } else if (currentSentence != '') {
                 currentSentence += char;
             }
