@@ -76,5 +76,6 @@ setImmediate(updateEverything);
 setInterval(updateEverything, 1000*60*30); // Every half an hour, update data.
 
 setTimeout(function() {
+    setImmediate(tweet);
     setInterval(tweet, 1000*60*60*5); // Tweet every 5 hours.
 }, 1000*60*10); // Starting after small offset. 
