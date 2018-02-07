@@ -53,7 +53,7 @@ class DemiScraper {
         let currentSentence = '';
         let sentenceFinished = false;
         for (let char of post) {
-            let alphaNumeric = validator.isAlphanumeric(char, 'sv-SE');
+            let alphaNumeric = validator.isAlphanumeric(char, 'sv-SE') || char == ' ';
             if (currentSentence == '' && char.toUpperCase() === char && alphaNumeric) {
                 currentSentence += char;
             } else if (currentSentence != '' && (char == '.' || char == '?' || char == '!')) {
