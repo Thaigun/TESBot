@@ -27,5 +27,6 @@ function shuffled(arr) {
 
 module.exports = {
     randomInt: randomInt,
-    rndChoose: randomFromArray
+    rndChoose: randomFromArray,
+    shuffled: shuffled
 };
