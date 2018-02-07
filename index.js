@@ -73,7 +73,7 @@ function tweet() {
 
 setImmediate(updateEverything);
 
-setInterval(updateEverything, 1000*60*60); // Every hour, update data.
+setInterval(updateEverything, 1000*60*30); // Every half an hour, update data.
 
 setTimeout(function() {
     setInterval(tweet, 1000*60*60*5); // Tweet every 5 hours.
