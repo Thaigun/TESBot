@@ -3,11 +3,12 @@
 var chai = require('chai');
 var expect = chai.expect;
 
+var tweeter = require('../tweeter');
 var DemiScraper = require('../demiScraper');
 var scraper = new DemiScraper();
 
-var validSentence1 = 'Täysin validi lause tämä on.'
-var validSentence2 = 'Toinen oikeaoppinen lausahdus \n jatkuu';
+var validSentence1 = 'Validi lause.'
+var validSentence2 = 'Toinen lause.';
 var lowercaseSentence = 'pelkkää pientä kirjainta.';
 var withoutDot = 'Milloin tämä lause loppuu';
 var withNumbers = 'Olipa kerran 7 kääpiötä.';
@@ -59,4 +60,11 @@ describe('demiScraper', function() {
             });
         });
     })
+});
+
+describe('tweeter', function() {
+    describe('generateTweet', function() {
+        it('should work in a simple case');
+        it('should not work without quotation marks');
+    });
 });
