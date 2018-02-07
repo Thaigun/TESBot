@@ -29,6 +29,11 @@ function updateEverything() {
 function tweet() {
     let rndTitle = stalker.getRandomTitle();
     let rndSnippet = scraper.getRandomSnippet();
+
+    if (rndTitle == null || rndSnippet == null) {
+        return;
+    }
+
     let tweetContent = tweeter.generateTweet(rndTitle, rndSnippet);
     
     if (tweetContent.length > 280) {

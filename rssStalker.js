@@ -64,8 +64,14 @@ class RSSStalker {
     }
 
     getRandomTitle() {
-        let channel = helpers.rndChoose(this.channels);
-        return helpers.rndChoose(channel.titles);
+        let shuffled = helpers.shuffled(this.channels);
+        for (let channel in shuffled) {
+            let title = helpers.rndChoose(channel.titles);
+            if (title != null) {
+                return title;
+            }
+        }
+        return null;
     }
 }
 
