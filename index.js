@@ -31,6 +31,11 @@ function tweet() {
     let rndSnippet = scraper.getRandomSnippet();
     let tweetContent = tweeter.generateTweet(rndTitle, rndSnippet);
     
+    if (tweetContent == null) {
+        console.log('Tweet not sent, tweet content was not available.');
+        return;
+    }
+
     if (tweetContent.length > 280) {
         console.warn('Tweet aborted, length was too much: ' + tweetContent.length);
         return;
@@ -46,7 +51,7 @@ function tweet() {
         return;
     }
     
-    if (tweetContent != null && tweetContent != '') {
+    if (tweetContent != '') {
         tweeter.tweet(tweetContent, function(err, tweet, response) {
             if (err) {
                 console.warn(err);
