@@ -49,7 +49,8 @@ class RSSStalker {
 
             if (item != null) {
                 // If there is a quote in the title, add it.
-                if (item.title.indexOf('\"') != -1) {
+                let quoteIdx = item.title.indexOf('\"');
+                if (quoteIdx != -1 && quoteIdx < item.title.length && item.title[quoteIdx + 1].toUpperCase() === item.title[quoteIdx + 1]) {
                     channel.titles.push(item.title);
                     console.log('Title found: ' + item.title);
                 }
