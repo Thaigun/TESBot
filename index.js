@@ -63,8 +63,8 @@ function tweet() {
             } else {
                 tweetedTitles.push(rndTitle);
                 tweetedSnippets.push(rndSnippet);
-                if (tweetedTitles.length > 10000) { tweetedTitles = []; } // Clear it at some point
-                if (tweetedSnippets.length > 10000) { tweetedSnippets = []; }
+                if (tweetedTitles.length > 1000) { tweetedTitles = []; } // Clear it at some point
+                if (tweetedSnippets.length > 1000) { tweetedSnippets = []; }
                 console.log('Tweeted: ' + tweetContent);
             }
         });

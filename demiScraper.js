@@ -15,11 +15,11 @@ const waitOptions = { waitUntil: ['load'/*, 'domcontentloaded'*/] };
 
 class DemiScraper {
     constructor() {
-        this.latestSnippet = '';
+        this.maxSnippets = 50;
+        this.snippets = [];
     }
 
     scrapeSnippets() {
-        this.latestSnippet = '';
         let scraper = this;
         (async () => {
             const browser = await puppeteer.launch();
@@ -39,7 +39,7 @@ class DemiScraper {
             
             let extracted = this.extractSentence(postText);
             if (extracted != '') {
-                scraper.latestSnippet = extracted;
+                scraper.insertSnippet(extracted);
                 console.log('Fetched a new snippet: ' + scraper.latestSnippet);
             }
         })();
@@ -83,8 +83,25 @@ class DemiScraper {
         }
     }
 
+    /**
+     * Inserts a snippet, controlling the size of the array.
+     */
+    insertSnippet(snippet) {
+        if (this.snippets.length >= this.maxSnippets) {
+            getRandomSnippet()
+        }
+        this.snippets.push(snippet);
+    }
+
     getRandomSnippet() {
-        return this.latestSnippet;
+        if (this.snippets.length === 0) {
+            return '';
+        }
+
+        let idx = helpers.randomInt(0, this.snippets.length - 1);
+        let snippet = this.snippets[idx];
+        this.snippets.splice(idx, 1);
+        return snippet;
     }
 }
 
