@@ -59,7 +59,10 @@ class DemiScraper {
             if (currentSentence == '' && char.toUpperCase() === char && alphaNumeric) {
                 currentSentence += char;
             } else if (currentSentence != '' && (char == '.' || char == '?' || char == '!')) {
-                currentSentence += char;
+                if (char != '.') {
+                    // Titles don't have dots in their quotes
+                    currentSentence += char;
+                }
                 lastSentence = currentSentence;
                 sentenceFinished = true;
                 currentSentence = '';
