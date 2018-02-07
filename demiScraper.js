@@ -49,6 +49,8 @@ class DemiScraper {
      * Extracts the last sentence from the forum post.
      */
     extractSentence(post) {
+        post = post.replace(/\r?\n|\r/g, " ");
+        post = post.replace('  ', ' ');
         let lastSentence = '';
         let currentSentence = '';
         let sentenceFinished = false;
@@ -62,7 +64,7 @@ class DemiScraper {
                 sentenceFinished = true;
                 currentSentence = '';
             } else if (currentSentence != '') {
-                if (alphaNumeric) {
+                if (alphaNumeric || char == ' ') {
                     currentSentence += char;
                 } else {
                     currentSentence = '';  // Let's not allow random characters.
