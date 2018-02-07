@@ -51,6 +51,7 @@ class RSSStalker {
                 // If there is a quote in the title, add it.
                 if (item.title.indexOf('\"') != -1) {
                     channel.titles.push(item.title);
+                    console.log('Title found: ' + item.title);
                 }
             }
         });
