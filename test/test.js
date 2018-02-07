@@ -12,34 +12,34 @@ var validSentence2 = 'Toinen lause.';
 var lowercaseSentence = 'pelkkää pientä kirjainta.';
 var withoutDot = 'Milloin tämä lause loppuu';
 var withNumbers = 'Olipa kerran 7 kääpiötä.';
-var specialCharacters = 'Mitä edes ¤ tarkoittaa?';
+var specialCharacters = 'Mitä edes ¤ tarkoittaa.';
 
 describe('demiScraper', function() {
     describe('extractSentence', function() {
         describe('valid posts', function() {
             it('should work with single valid sentence', function() {
                 let scraped = scraper.extractSentence(validSentence1);
-                expect(scraped).to.equal(validSentence1);
+                expect(scraped + '.').to.equal(validSentence1);
             });
     
             it('should pick the last one of many valid sentences.', function() {
                 let scraped = scraper.extractSentence(validSentence1 + ' ' + validSentence2);
-                expect(scraped).to.equal(validSentence2);
+                expect(scraped + '.').to.equal(validSentence2);
             });
 
             it('should find the valid sentence if it is first', function() {
                 let scraped = scraper.extractSentence(validSentence1 + ' ' + withoutDot);
-                expect(scraped).to.equal(validSentence1);
+                expect(scraped + '.').to.equal(validSentence1);
             });
 
             it('should find the valid sentence if it is last', function() {
                 let scraped = scraper.extractSentence(specialCharacters + ' ' + validSentence2);
-                expect(scraped).to.equal(validSentence2);
+                expect(scraped + '.').to.equal(validSentence2);
             });
             
             it('should accept sentences with numbers', function() {
                 let scraped = scraper.extractSentence(withNumbers);
-                expect(scraped).to.equal(withNumbers);
+                expect(scraped + '.').to.equal(withNumbers);
             });
         });
         

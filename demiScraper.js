@@ -40,7 +40,7 @@ class DemiScraper {
             let extracted = this.extractSentence(postText);
             if (extracted != '') {
                 scraper.insertSnippet(extracted);
-                console.log('Fetched a new snippet: ' + scraper.latestSnippet);
+                console.log('Fetched a new snippet: ' + extracted);
             }
         })();
     }
