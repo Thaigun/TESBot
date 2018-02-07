@@ -57,7 +57,7 @@ function tweet() {
     }
     
     if (tweetContent != '') {
-        tweeter.tweet(tweetContent, function(err, tweet, response) {
+        tweeter.sendTweet(tweetContent, function(err, tweet, response) {
             if (err) {
                 console.warn(err);
             } else {
