@@ -26,7 +26,6 @@ async function updateEverything() {
     stalker.updateTitles();
     await scraper.scrapeSnippets();
     updateInProgress = false;
-    let testval = 3;
 }
 
 /**
