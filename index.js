@@ -14,13 +14,19 @@ let scraper = new Scraper();
 let tweetedTitles = [];
 let tweetedSnippets = [];
 
+let updateInProgress = false;
+
 /**
  * This triggers the whole cycle from fetchiong the news titles and forum posts
  * to tweeting them.
  */
-function updateEverything() {
+async function updateEverything() {
+    updateInProgress = true;
+    // Not idiot proof, but the bottle neck is basically always the scraping part so we are pretty safe here...
     stalker.updateTitles();
-    scraper.scrapeSnippets();
+    await scraper.scrapeSnippets();
+    updateInProgress = false;
+    let testval = 3;
 }
 
 /**
@@ -73,7 +79,11 @@ function tweet() {
 
 setImmediate(updateEverything);
 
-setInterval(updateEverything, 1000*60*30); // Every half an hour, update data.
+setInterval(function () {
+    if (!updateInProgress) {
+        updateEverything();
+    }
+}, 1000*60*30); // Every half an hour, update data.
 
 setTimeout(function() {
     setImmediate(tweet);

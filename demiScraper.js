@@ -19,12 +19,12 @@ class DemiScraper {
         this.snippets = [];
     }
 
-    scrapeSnippets() {
+    async scrapeSnippets() {
         let scraper = this;
-        (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            page.setDefaultNavigationTimeout(0);
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        page.setDefaultNavigationTimeout(120 * 1000);
+        try {
             await page.goto(baseUrl, waitOptions);
             await Promise.all([
                 page.waitForNavigation(),
@@ -35,15 +35,18 @@ class DemiScraper {
                 let allPosts = document.querySelectorAll('.field-item');
                 return allPosts[allPosts.length - 1].innerText;
             });
-            
-            await browser.close();
-            
+
             let extracted = this.extractSentence(postText);
+            
             if (extracted != '') {
                 scraper.insertSnippet(extracted);
                 console.log('Fetched a new snippet: ' + extracted);
             }
-        })();
+        } catch(e) {
+            console.log('Error while scraping.');
+        } finally {
+            await browser.close();
+        }
     }
 
     /**
