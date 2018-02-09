@@ -35,7 +35,8 @@ class DemiScraper {
                 let allPosts = document.querySelectorAll('.field-item');
                 return allPosts[allPosts.length - 1].innerText;
             });
-            browser.close();
+            
+            await browser.close();
             
             let extracted = this.extractSentence(postText);
             if (extracted != '') {
