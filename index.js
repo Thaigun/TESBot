@@ -82,7 +82,7 @@ setInterval(function () {
     if (!updateInProgress) {
         updateEverything();
     }
-}, 1000*60*30); // Every half an hour, update data.
+}, 1000*60*15); // Every fifteen minutes, update data.
 
 setTimeout(function() {
     setImmediate(tweet);

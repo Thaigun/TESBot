@@ -112,12 +112,13 @@ class DemiScraper {
      * Inserts a snippet, controlling the size of the array.
      */
     insertSnippet(snippet) {
-        if (this.snippets.includes('snippet')) {
+        if (this.snippets.indexOf(snippet) !== -1) {
             return;
         }
 
         if (this.snippets.length >= this.maxSnippets) {
-            getRandomSnippet()
+            // Drop the first (oldest) one.
+            this.snippets.shift();
         }
         this.snippets.push(snippet);
     }
