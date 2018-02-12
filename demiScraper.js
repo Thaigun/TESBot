@@ -23,7 +23,7 @@ class DemiScraper {
         let scraper = this;
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        page.setDefaultNavigationTimeout(120 * 1000);
+        page.setDefaultNavigationTimeout(7 * 60 * 1000);
         try {
             await page.goto(baseUrl, waitOptions);
             await Promise.all([
