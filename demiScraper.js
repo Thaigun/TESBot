@@ -7,10 +7,10 @@ const validator = require('validator');
 
 const helpers = require('./helpers');
 
-const baseUrl = 'https://www.demi.fi/keskustelut/syvalliset';
-//const baseUrl = 'https://www.demi.fi';
-//const baseUrl = 'http://example.com';
+const baseUrl = 'https://www.demi.fi';
+const forumUrl = baseUrl + '/keskustelut/syvalliset';
 
+const args = [];
 const waitOptions = { waitUntil: ['load'/*, 'domcontentloaded'*/] };
 
 class DemiScraper {
@@ -21,21 +21,42 @@ class DemiScraper {
 
     async scrapeSnippets() {
         let scraper = this;
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch(args);
         const page = await browser.newPage();
+        await page.setRequestInterception(true);
         page.setDefaultNavigationTimeout(7 * 60 * 1000);
+
+        // Don't load images, we don't need them and they slow it down.
+        page.on('request', request => {
+            if(request.resourceType() === 'image') {
+                request.abort();
+            } else {
+                request.continue();
+            }
+        });
+
         try {
-            await page.goto(baseUrl, waitOptions);
-            await Promise.all([
-                page.waitForNavigation(),
-                page.click('.views-field-title > a')
-            ]);
+            await page.goto(forumUrl, waitOptions);
+            console.log('Navigated to base url');
             
+            // For some reason, couldn't make the click + waitForNavigation scheme work.
+            // Get the link to the last post on the page.
+            let threadLink = await page.evaluate(() => {
+                let link = document.querySelector('.views-field-title > a').getAttribute('href');
+                return link;
+            });
+            
+            await page.goto(baseUrl + threadLink, waitOptions);
+            
+            console.log('Clicked a link');
+            
+            // Get the text inside the last message.
             let postText = await page.evaluate(() => {
                 let allPosts = document.querySelectorAll('.field-item');
                 return allPosts[allPosts.length - 1].innerText;
             });
 
+            // Extract a sentence out from the whole post.
             let extracted = this.extractSentence(postText);
             
             if (extracted != '') {
@@ -43,7 +64,7 @@ class DemiScraper {
                 console.log('Fetched a new snippet: ' + extracted);
             }
         } catch(e) {
-            console.log('Error while scraping.');
+            console.log('Error while scraping: ' + e.message);
         } finally {
             await browser.close();
         }
@@ -71,10 +92,10 @@ class DemiScraper {
                 sentenceFinished = true;
                 currentSentence = '';
             } else if (currentSentence != '') {
-                if (alphaNumeric || char == ' ') {
+                if (alphaNumeric || (char == ' ' && currentSentence.length > 1)) {
                     currentSentence += char;
                 } else {
-                    currentSentence = '';  // Let's not allow random characters.
+                    currentSentence = '';  // Let's not allow random characters or only one letter in the beginning of the sentence (probably a smiley).
                 }
             }
         }

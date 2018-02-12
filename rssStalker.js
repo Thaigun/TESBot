@@ -52,7 +52,6 @@ class RSSStalker {
                 let quoteIdx = item.title.indexOf('\"');
                 if (quoteIdx != -1 && quoteIdx < item.title.length && item.title[quoteIdx + 1].toUpperCase() === item.title[quoteIdx + 1]) {
                     channel.titles.push(item.title);
-                    console.log('Title found: ' + item.title);
                 }
             }
         });
@@ -62,7 +61,7 @@ class RSSStalker {
         for (let channel of this.channels) {
             this.updateTitlesForChannel(channel);
         }
-        console.log('Titles have been updated');
+        console.log('Updating titles');
     }
 
     getRandomTitle() {
