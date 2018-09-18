@@ -8,7 +8,7 @@ const validator = require('validator');
 const helpers = require('./helpers');
 
 const baseUrl = 'https://www.demi.fi';
-const forumUrl = baseUrl + '/keskustelut/syvalliset';
+const forumUrl = baseUrl + '/keskustelut/oma-planeetta';
 
 const args = [];
 const waitOptions = { waitUntil: ['load'/*, 'domcontentloaded'*/] };
@@ -42,7 +42,7 @@ class DemiScraper {
             // For some reason, couldn't make the click + waitForNavigation scheme work.
             // Get the link to the last post on the page.
             let threadLink = await page.evaluate(() => {
-                let link = document.querySelector('.views-field-title > a').getAttribute('href');
+                let link = document.querySelector('.threadItem__title___6EN-b > a').getAttribute('href');
                 return link;
             });
             
@@ -52,7 +52,7 @@ class DemiScraper {
             
             // Get the text inside the last message.
             let postText = await page.evaluate(() => {
-                let allPosts = document.querySelectorAll('.field-item');
+                let allPosts = document.querySelectorAll('p > span');
                 return allPosts[allPosts.length - 1].innerText;
             });
 
