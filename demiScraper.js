@@ -8,7 +8,7 @@ const validator = require('validator');
 const helpers = require('./helpers');
 
 const baseUrl = 'https://www.demi.fi';
-const forumUrl = baseUrl + '/keskustelut/oma-planeetta';
+const forumUrl = baseUrl + '/teemat/ihastuminen';
 
 const args = [];
 const waitOptions = { waitUntil: ['load'/*, 'domcontentloaded'*/] };
@@ -52,7 +52,7 @@ class DemiScraper {
             
             // Get the text inside the last message.
             let postText = await page.evaluate(() => {
-                let allPosts = document.querySelectorAll('p > span');
+                let allPosts = document.querySelectorAll('.replyMarkup__component___7QTJ5 > p');
                 return allPosts[allPosts.length - 1].innerText;
             });
 
